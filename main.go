@@ -1,11 +1,14 @@
 package main
 
-
-import "net/http"
+import (
+	"log"
+	"net/http"
+)
 
 
 func main() {
 	setupApi()
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func setupApi() {

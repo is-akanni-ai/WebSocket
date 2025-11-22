@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Frontend Application</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body>
+        <div class="center">
+            <h1>Welcome to My Frontend Application</h1>
+            <h3>This is a simple HTML page served by the frontend.</h3>
+            <form id="chatroom-selection">
+                <label for="chatroom">Chatroom</label>
+                <input type="text" id="chatroom" name="chatroom" required><br><br>
+                <input type="submit" value="Change Chatroom">
+            </form>
+            <b>
+            <textarea class="messagearea" id="chatmessages" readonly name="chatmessages" rows="4" cols="50" placeholder="Welcome to chatroom"></textarea>
+            <br>
+            <form id="chatroom-message">
+                <label for="messages">Message</label>
+                <input type="text" id="message" name="message"><br><br>
+                <input type="submit" value="Send Message">
+            </form>
+        </div>
+
+        <script>
+            var selectedChat = "general";
+
+            function changeChatroom(chatroom) {
+                var newChat = document.getElementById("chatroom");
+                if(newChat != null && newChat.value != selectedChat) {
+                    console.log("Changing chatroom to: ", newChat);
+                    selectedChat = newChat.value;
+                    document.getElementById("chatmessages").placeholder = "Welcome to chatroom: " + selectedChat;
+                }
+                return false;
+            }
+
+            function sendMessage() {
+                var newmessage = document.getElementById("message");
+                if(newmessage != null) {
+                    console.log("Sending message to chatroom ", selectedChat, ": ", newmessage.value);
+                    var chatMessages = document.getElementById("chatmessages");
+                    chatMessages.value += "You: " + newmessage.value + "\n";
+                    newmessage.value = "";
+                }
+                return false;
+            }
+
+            window.onload = function(){
+                document.getElementById("chatroom-selection").onsubmit = changeChatroom
+                document.getElementById("chatroom-message").onsubmit = sendMessage
+
+                if(window['WebSocket']) {
+                    console.log("WebSocket is supported. Initializing WebSocket connection...");
+                    // Initialize WebSocket connection here
+                } else {
+                    alert("WebSocket is not supported in this browser.");
+                    console.log("WebSocket is not supported in this browser.");
+                }
+            };
+        </script>
+
+        <style>
+            body {
+                overflow: hidden;
+                font-family: Arial, sans-serif;
+                background-color: #413939;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 100%;
+            }
+            .center {
+                margin: auto;
+                width: 50%;
+                border: 3px solid green;
+                padding: 10px;
+            }
+            .messagearea {
+                width: 80%;
+                height: 200px;
+                margin-top: 20px;
+            }
+        </style>
+    </body>
+</html>
