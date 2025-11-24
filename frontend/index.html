@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>My Frontend Application</title>
-        <link rel="stylesheet" href="styles.css">
+        <!-- <link rel="stylesheet" href="styles.css"> -->
     </head>
 
     <body>
@@ -57,6 +57,7 @@
 
                 if(window['WebSocket']) {
                     console.log("WebSocket is supported. Initializing WebSocket connection...");
+                    conn = new WebSocket("ws://" + document.location.host + "/ws");
                     // Initialize WebSocket connection here
                 } else {
                     alert("WebSocket is not supported in this browser.");
