@@ -5,7 +5,6 @@ import (
 	"net/http"
 )
 
-
 func main() {
 	setupApi()
 	log.Fatal(http.ListenAndServe(":8080", nil))
@@ -13,7 +12,12 @@ func main() {
 
 func setupApi() {
 
-	manager := NewManager();
+	manager := NewManager()
+	// serve static frontend files
 	http.Handle("/", http.FileServer(http.Dir("./frontend")))
-	http.HandleFunc("/ws", manager.serverWS);
+	// suppress automatic browser favicon requests to avoid 404 noise
+	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusNoContent)
+	})
+	http.HandleFunc("/ws", manager.serverWS)
 }
